@@ -1,5 +1,5 @@
 <?php
-namespace Hanoivip\Download;
+namespace Hanoivip\Download\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -26,5 +26,25 @@ class DownloadController extends Controller
         {
             return view('hanoivip::pc');
         }
+    }
+    
+    public function androidStore(Request $request)
+    {
+        return view('hanoivip::android-store');
+    }
+    
+    public function androidDirect(Request $request)
+    {
+        return view('hanoivip::android-apk');
+    }
+    
+    public function iosStore(Request $request)
+    {
+        return view('hanoivip::ios-store');
+    }
+    
+    public function iosInhouse(Request $request)
+    {
+        return view('hanoivip::ios-inhouse');
     }
 }
