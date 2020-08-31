@@ -15,11 +15,11 @@ class DownloadController extends Controller
         {
             if (Agent::is('iOS'))
             {
-                return view('hanoivip::ios-inhouse');
+                return $this->iosInhouse($request);
             }
             else 
             {
-                return view('hanoivip::android-apk');
+                return $this->androidDirect($request);
             }
         }
         else if (Agent::isDesktop())
