@@ -1,9 +1,14 @@
 @extends('hanoivip::layouts.app')
 
-@section('title', 'Link to AppStore')
+@section('title', 'Open app in AppStore')
 
 @section('content')
 
-We have not published this app into AppStore!
+@if (isset($link))
+<p>Redirecting..</p>
+<script>window.open("{{$link}}");</script>
+@else
+<p>Our app has not been in AppStore now! Please try again later or use in-house ipa file.<p>
+@endif
 
 @endsection

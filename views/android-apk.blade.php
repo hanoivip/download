@@ -1,16 +1,20 @@
 @extends('hanoivip::layouts.app')
 
-@section('title', 'Link to install apk')
+@section('title', 'Download apk file')
 
 @section('content')
 
-<a href="{{__('hanoivip::download.apk-direct')}}">
-<img src="{{asset('img/down.png')}}"/>
-Link APK Full (quick)</a>
-<br/>
+@if (isset($link))
 
-<a href="{{__('hanoivip::download.apk-bk')}}">
-<img src="{{asset('img/down.png')}}"/>
-Link APK backup (slow)</a>
+<p>Downloading..</p>
+<iframe id="iframe_download" src="{{$link}}"></iframe>
+
+<p>If the download doesn't start, <a href={{$link}}>click here</a></p>
+
+@else
+
+<p>Direct apk file still not available now, please contact the supporter and try again!<p>
+
+@endif
 
 @endsection

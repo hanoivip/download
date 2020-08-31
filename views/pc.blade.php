@@ -4,6 +4,10 @@
 
 @section('content')
 
-We do not support PC right now
+@if (isset($link))
+
+@else
+
+@endif
 
 @endsection

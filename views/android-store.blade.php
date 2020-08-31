@@ -1,9 +1,18 @@
 @extends('hanoivip::layouts.app')
 
-@section('title', 'Link to CHPlay')
+@section('title', 'Open app in ChPlay')
 
 @section('content')
 
-We have not published this app into ChPlay!
+@if (isset($link))
+
+<p>Redirecting..</p>
+<script>window.open("{{$link}}");</script>
+
+@else
+
+<p>Our app has not been in ChPlay now! Please try again later or use APK file.<p>
+
+@endif
 
 @endsection

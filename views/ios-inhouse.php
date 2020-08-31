@@ -1,11 +1,15 @@
 @extends('hanoivip::layouts.app')
 
-@section('title', 'Link to install iOS')
+@section('title', 'Link to install iOS ipa file')
 
 @section('content')
 
-<a href="{{__('hanoivip::download.ios-in-house')}}">
-<img src="{{asset('img/apple.png')}}" style="width:100px; height: 100px;">Install
-</a>
+@if (isset($link))
+<p>Install..</p>
+<iframe id="iframe_download" src="{{$link}}"></iframe>
+<p>If the isntall doesn't start, <a href={{$link}}>click here</a></p>
+@else
+<p>Our in-house IPA file is not available now, please contact the supporter and try again!<p>
+@endif
 
 @endsection
