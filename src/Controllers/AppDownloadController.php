@@ -17,10 +17,10 @@ class AppDownloadController extends Controller
         $config = ['error' => 0, 'message' => 'success', 
             'data' => [
                 'urls' => [
-                    'android-store' => $buildNumber <= $currentBuildNumber ? route('android.store') : route('home'),
-                    'android-apk' => $buildNumber <= $currentBuildNumber ? route('android.apk') : route('home'),
-                    'ios-store' => $buildNumber <= $currentBuildNumber ? route('ios.store') : route('home'),
-                    'ios-in-house' => $buildNumber <= $currentBuildNumber ? route('ios.inhouse') : route('home'),
+                    'android_store' => $buildNumber <= $currentBuildNumber ? route('android.store') : route('home'),
+                    'android_apk' => $buildNumber <= $currentBuildNumber ? route('android.apk') : route('home'),
+                    'ios_store' => $buildNumber <= $currentBuildNumber ? route('ios.store') : route('home'),
+                    'ios_inhouse' => $buildNumber <= $currentBuildNumber ? route('ios.inhouse') : route('home'),
                     //'pc' => $buildNumber <= $currentBuildNumber ? route('pc') : route('home'),
                 ]
             ]
