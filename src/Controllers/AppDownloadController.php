@@ -8,9 +8,6 @@ class AppDownloadController extends Controller
 {
     public function getConfig(Request $request)
     {
-        if (Auth::check()) {
-            return ['error' => 1, 'message' => 'unauthorized', 'data' => []];
-        }
         $buildNumber = $request->input('build_number');
         if ($buildNumber == 'unknown')
             $buildNumber = 999999;
@@ -24,7 +21,7 @@ class AppDownloadController extends Controller
                     'android-apk' => $buildNumber <= $currentBuildNumber ? route('android.apk') : route('home'),
                     'ios-store' => $buildNumber <= $currentBuildNumber ? route('ios.store') : route('home'),
                     'ios-in-house' => $buildNumber <= $currentBuildNumber ? route('ios.inhouse') : route('home'),
-                    'pc' => $buildNumber <= $currentBuildNumber ? route('pc') : route('home'),
+                    //'pc' => $buildNumber <= $currentBuildNumber ? route('pc') : route('home'),
                 ]
             ]
         ];
