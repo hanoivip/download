@@ -1,7 +1,6 @@
 <?php
 namespace Hanoivip\Download\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Facades\Agent;
 
