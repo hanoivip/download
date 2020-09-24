@@ -2,7 +2,6 @@
 namespace Hanoivip\Download\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AppDownloadController extends Controller
 {
@@ -21,7 +20,7 @@ class AppDownloadController extends Controller
                     'android_apk' => $buildNumber <= $currentBuildNumber ? route('android.apk') : route('home'),
                     'ios_store' => $buildNumber <= $currentBuildNumber ? route('ios.store') : route('home'),
                     'ios_inhouse' => $buildNumber <= $currentBuildNumber ? route('ios.inhouse') : route('home'),
-                    //'pc' => $buildNumber <= $currentBuildNumber ? route('pc') : route('home'),
+                    'pc' => route('home'),
                 ]
             ]
         ];
