@@ -15,6 +15,7 @@ class AppDownloadController extends Controller
         $currentBuildNumber = config('download-homeapp.current_build_number', 0);
         $config = ['error' => 0, 'message' => 'success', 
             'data' => [
+                'current' => $currentBuildNumber,
                 'urls' => [
                     'android_store' => $buildNumber <= $currentBuildNumber ? route('android.store') : route('home'),
                     'android_apk' => $buildNumber <= $currentBuildNumber ? route('android.apk') : route('home'),
