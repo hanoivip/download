@@ -1,9 +1,9 @@
 {
-    "name": "hanoivip/download",
-    "description": "Player download apps",
-    "type": "library",
-    "license": "MIT",
-    "autoload" : {
+	"name" : "hanoivip/download",
+	"description" : "Player download apps",
+	"type" : "library",
+	"license" : "MIT",
+	"autoload" : {
 		"psr-4" : {
 			"Hanoivip\\Download\\" : "src/"
 		}
@@ -21,8 +21,7 @@
 		"guzzlehttp/guzzle" : "^6.3",
 		"laravel/framework" : ">=5.5",
 		"laravel/tinker" : "~1.0",
-		"mervick/curl-helper" : "^1.1",
-		"jenssegers/agent": "^2.6",
+		"jenssegers/agent" : "^2.6",
 		"hanoivip/events" : "dev-master"
 	},
 	"extra" : {
