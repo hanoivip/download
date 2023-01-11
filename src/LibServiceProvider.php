@@ -3,6 +3,9 @@
 namespace Hanoivip\Download;
 
 use Illuminate\Support\ServiceProvider;
+use Hanoivip\Download\Services\IIosProvision;
+use Hanoivip\Download\Services\ManualProvision;
+use Hanoivip\Download\Services\AutoProvision;
 
 class LibServiceProvider extends ServiceProvider
 {
@@ -17,10 +20,24 @@ class LibServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadTranslationsFrom( __DIR__.'/../lang', 'hanoivip');
-        $this->mergeConfigFrom( __DIR__.'/../config/download-homeapp.php', 'download-homeapp');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/ios.php', 'ios');
+        $this->commands([
+            \Hanoivip\Download\Commands\ClearPendingDevices::class,
+            \Hanoivip\Download\Commands\ListPendingDevices::class,
+        ]);
+        $ops = config('ios.mode', 'manual');
+        if ($ops == 'manual')
+        {
+            $this->app->bind(IIosProvision::class, ManualProvision::class);
+        }
+        else
+        {
+            $this->app->bind(IIosProvision::class, AutoProvision::class);
+        }
     }
 }
