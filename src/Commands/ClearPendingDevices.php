@@ -28,7 +28,7 @@ class ClearPendingDevices extends Command
                 // business
                 $service->onProvisionDone($record->user_id, $record->udid);
                 // send notifications
-                $user = UserFacade::getUserCredentials($record->userId);
+                $user = UserFacade::getUserCredentials($record->user_id);
                 $user->notify(new IosInstallReady());
             }
         }
