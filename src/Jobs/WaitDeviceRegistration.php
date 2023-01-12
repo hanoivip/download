@@ -37,6 +37,7 @@ class WaitDeviceRegistration implements ShouldQueue
         $mode = config('ios.mode', 'manual');
         if ($mode == 'manual')
         {
+            $this->delete();
             return;  
         }
         if (!$provision->isDone($this->udid))
