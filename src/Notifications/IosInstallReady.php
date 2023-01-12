@@ -13,7 +13,7 @@ class IosInstallReady extends Notification implements ShouldQueue
     
     public function via($notifiable)
     {
-        return ['database', 'email'];
+        return ['database', 'mail'];
     }
     
     public function toMail($notifiable)
