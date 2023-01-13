@@ -6,8 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Hanoivip\Download\Models\IosInstall;
 use Hanoivip\Download\Services\IosService;
-use Hanoivip\User\Facades\UserFacade;
-use Hanoivip\Download\Notifications\IosInstallReady;
+use Hanoivip\Events\Download\IosProvisionSuccess;
 
 class ClearPendingDevices extends Command
 {
@@ -28,8 +27,7 @@ class ClearPendingDevices extends Command
                 // business
                 $service->onProvisionDone($record->user_id, $record->udid);
                 // send notifications
-                $user = UserFacade::getUserCredentials($record->user_id);
-                $user->notify(new IosInstallReady());
+                dispatch(new IosProvisionSuccess($record->user_id, $record->udid));
             }
         }
         Cache::put('pending_ios_devices', []);

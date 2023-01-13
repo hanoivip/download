@@ -4,6 +4,10 @@
 
 @section('content')
 
+@if (!empty($error))
+<p style="color: red;">{{$error}}</p>
+@endif
+
 <p>Enter your device ID (TODO: make guidelines here)</p>
 <form method="post" action="{{route('ios.udid.do')}}">
 {{ csrf_field() }}
