@@ -9,8 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Hanoivip\Download\Services\IIosProvision;
 use Exception;
 use Hanoivip\Download\Services\IosService;
-use Hanoivip\User\Facades\UserFacade;
-use Hanoivip\Download\Notifications\IosInstallReady;
+use Hanoivip\Events\Download\IosProvisionSuccess;
 
 class WaitDeviceRegistration implements ShouldQueue
 {
@@ -48,8 +47,7 @@ class WaitDeviceRegistration implements ShouldQueue
         // business
         $service = app()->make(IosService::class);
         $service->onProvisionDone($this->userId, $this->udid);
-        // send notifications
-        $user = UserFacade::getUserCredentials($this->userId);
-        $user->notify(new IosInstallReady());
+        // event
+        dispatch(new IosProvisionSuccess($this->userId, $this->udid));
     }
 }

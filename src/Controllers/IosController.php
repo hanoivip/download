@@ -44,28 +44,31 @@ class IosController extends Controller
         $days = config('ios.days');
         if (BalanceFacade::enough($userId, $cost))
         {
-            $ok = $this->service->newInstall($userId, $days);
-            if ($ok)
+            $result = $this->service->newInstall($userId, $days);
+            if ($result === true)
             {
-                $ok1 = BalanceFacade::remove($userId, $cost, 'Ios');
-                if (empty($ok1))
+                $ok = BalanceFacade::remove($userId, $cost, 'Ios');
+                if (empty($ok))
                 {
                     Log::error("Ios fail to recharge user $userId with $cost coins");
                 }
                 return view('hanoivip::ios-buy-success');
             }
-            else
+            else if ($result === false)
             {
                 $error = __('hanoivip::ios.failure');
+            }
+            else
+            {
+                $error = $result;
             }
         }
         else
         {
             $error = __('hanoivip::balance.not-enough-money');
         }
-        // message bag?
-        Log::error($error);
-        return view('hanoivip::ios-buy', ['cost' => $cost, 'days' => $days]);
+        // Log::error($error);
+        return view('hanoivip::ios-buy', ['cost' => $cost, 'days' => $days, 'error' => $error]);
     }
     
     public function askUdid()
@@ -77,15 +80,20 @@ class IosController extends Controller
     {
         $userId = Auth::user()->getAuthIdentifier();
         $udid = Request::input('udid');
-        if ($this->service->registerDevice($userId, $udid))
+        $result = $this->service->registerDevice($userId, $udid);
+        if ($result === true)
         {
             return view('hanoivip::ios-udid-success');
         }
+        else if ($result === false)
+        {
+            $error = __('hanoivip::ios.register-device-failed');
+        }
         else
         {
-            // message error?
-            return view('hanoivip::ios-ask-udid');
+            $error = $result;
         }
+        return view('hanoivip::ios-ask-udid', ['error' => $error]);
     }
     
     public function history()
@@ -122,7 +130,6 @@ class IosController extends Controller
         {
             $error = __('hanoivip::balance.not-enough-money');
         }
-        // message bag?
-        return view('hanoivip::ios-buy', ['cost' => $cost, 'days' => $days]);
+        return view('hanoivip::ios-buy', ['cost' => $cost, 'days' => $days, 'error' => $error]);
     }
 }

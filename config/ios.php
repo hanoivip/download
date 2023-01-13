@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cost' => 100000,
+    'cost' => 200000,
     'days' => 365,
     'mode' => 'manual', // manual vs auto
 ];

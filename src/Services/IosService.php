@@ -4,6 +4,7 @@ namespace Hanoivip\Download\Services;
 use Hanoivip\Download\Models\IosInstall;
 use Illuminate\Support\Carbon;
 use Hanoivip\Download\Jobs\WaitDeviceRegistration;
+use Hanoivip\Events\Download\IosProvisionRenewSuccess;
 
 class IosService
 {
@@ -30,6 +31,9 @@ class IosService
      */
     public function newInstall($userId, $days)
     {
+        $info = $this->getInfo($userId);
+        if (!empty($info))
+            return false;
         $record = new IosInstall();
         $record->user_id = $userId;
         $record->buy_days = $days;
@@ -44,7 +48,12 @@ class IosService
      */
     public function registerDevice($userId, $udid)
     {
+        $dev = IosInstall::where('udid', $udid)->first();
+        if (!empty($dev))
+            return __('hanoivip::ios.device-registered');
         $record = $this->getInfo($userId);
+        if (!empty($record->udid))
+            return __('hanoivip::ios.user-had-device');
         $record->udid = $udid;
         $record->save();
         // request to device provision
@@ -78,15 +87,16 @@ class IosService
                 return true;
             }
             return false;*/
-            return true;
         }
         else
         {
             $endTime = $record->end_time;
             $record->end_time = (Carbon::parse($endTime)->addDays($days)->timestamp);
             $record->save();
-            return true;
         }
+        // event
+        dispatch(new IosProvisionRenewSuccess($userId, $record->udid));
+        return true;
     }
     
     public function onProvisionDone($userId, $udid)
