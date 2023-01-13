@@ -27,7 +27,7 @@ class ClearPendingDevices extends Command
                 // business
                 $service->onProvisionDone($record->user_id, $record->udid);
                 // send notifications
-                dispatch(new IosProvisionSuccess($record->user_id, $record->udid));
+                event(new IosProvisionSuccess($record->user_id, $record->udid));
             }
         }
         Cache::put('pending_ios_devices', []);

@@ -48,6 +48,6 @@ class WaitDeviceRegistration implements ShouldQueue
         $service = app()->make(IosService::class);
         $service->onProvisionDone($this->userId, $this->udid);
         // event
-        dispatch(new IosProvisionSuccess($this->userId, $this->udid));
+        event(new IosProvisionSuccess($this->userId, $this->udid));
     }
 }
