@@ -33,6 +33,13 @@ Route::middleware([
     'web',
     'admin'
 ])->namespace('\Hanoivip\Download\Controllers')->group(function () {
-    Route::get('/ios', 'Admin@index');
+    Route::get('/ios', 'Admin@index')->name('admin.ios');
+    // list all ready device?
+    Route::get('/ios/pending', 'Admin@listPending');
+    Route::post('/ios/pending', 'Admin@invalidPending');
+    Route::post('/ios/pending-success', 'Admin@finishPending');
+    // add new account?
+    // move to new account?
+    // statistics?
     Route::get('/ios/device/download', 'Admin@downloadDevices');
 });

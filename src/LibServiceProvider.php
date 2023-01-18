@@ -29,6 +29,7 @@ class LibServiceProvider extends ServiceProvider
         $this->commands([
             \Hanoivip\Download\Commands\ClearPendingDevices::class,
             \Hanoivip\Download\Commands\ListPendingDevices::class,
+            \Hanoivip\Download\Commands\InvalidPendingDevices::class,
         ]);
         $ops = config('ios.mode', 'manual');
         if ($ops == 'manual')
