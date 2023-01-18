@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class IosDeviceInvalid extends Notification implements ShouldQueue
+class IosDevicePending extends Notification implements ShouldQueue
 {
     use Queueable;
     
@@ -26,9 +26,9 @@ class IosDeviceInvalid extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->line('You submited a wrong device ID')
-        ->action('Update it again', url('/'))
-        ->line('Thank you for using our application!');
+        ->line('New iOS device pending!')
+        ->action('Provisioning', url('/'))
+        ->line('Go to Admin to provision them!');
     }
     
     public function toArray($notifiable)

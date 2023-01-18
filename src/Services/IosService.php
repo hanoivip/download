@@ -5,6 +5,8 @@ use Hanoivip\Download\Models\IosInstall;
 use Illuminate\Support\Carbon;
 use Hanoivip\Download\Jobs\WaitDeviceRegistration;
 use Hanoivip\Events\Download\IosProvisionRenewSuccess;
+use Hanoivip\Events\Download\IosDevicePending;
+use Hanoivip\Events\Download\IosDeviceInvalid;
 
 class IosService
 {
@@ -60,6 +62,7 @@ class IosService
         if ($this->provision->registerDevice($udid))
         {
             dispatch(new WaitDeviceRegistration($userId, $udid))->delay(now()->addSeconds(180));
+            event(new IosDevicePending($userId, $udid));
             return true;
         }
         return false;
@@ -106,5 +109,35 @@ class IosService
         $record->begin_time = $now;
         $record->end_time = now()->addDays($record->buy_days)->timestamp;
         $record->save();
+    }
+    
+    public function listPending()
+    {
+        $all = IosInstall::all();
+        $ret = [];
+        foreach ($all as $install)
+        {
+            if (!empty($install->udid) && 
+                empty($install->begin_time) &&
+                empty($install->end_time))
+            {
+                $ret[] = $install;
+            }
+        }
+        return $ret;
+    }
+    
+    public function invalidPending($udid)
+    {
+        $record = IosInstall::where('udid', $udid)->first();
+        if (!empty($record))
+        {
+            $record->udid = '';
+            $record->begin_time = 0;
+            $record->end_time = 0;
+            $record->save();
+            event(new IosDeviceInvalid($record->user_id, $udid));
+        }
+        return true;
     }
 }

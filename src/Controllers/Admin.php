@@ -2,7 +2,8 @@
 namespace Hanoivip\Download\Controllers;
 
 use Hanoivip\Download\Services\IosService;
-use Illuminate\Support\Facades\Auth;
+use Hanoivip\Events\Download\IosProvisionSuccess;
+use Illuminate\Support\Facades\Request;
 
 class Admin extends Controller
 {
@@ -15,34 +16,32 @@ class Admin extends Controller
     
     public function index()
     {
-        $userId = Auth::user()->getAuthIdentifier();
-        $info = $this->service->getInfo($userId);
-        if (empty($info))
+        return $this->listPending();
+    }
+    
+    public function listPending()
+    {
+        $pendings = $this->service->listPending();
+        return view('hanoivip::admin.ios-pendings', ['pendings' => $pendings]);
+    }
+    
+    public function invalidPending()
+    {
+        $udid = Request::input('udid');
+        $result = $this->service->invalidPending($udid);
+        return $this->listPending();
+    }
+    
+    public function finishPending()
+    {
+        $pendings = $this->service->listPending();
+        foreach ($pendings as $record) 
         {
-            // not buy anytime
-            $cost = config('ios.cost');
-            $days = config('ios.days');
-            return view('hanoivip::ios-buy', ['cost' => $cost, 'days' => $days]);
+            // business
+            $this->service->onProvisionDone($record->user_id, $record->udid);
+            // send notifications
+            event(new IosProvisionSuccess($record->user_id, $record->udid));
         }
-        else
-        {
-            // renew
-            return view('hanoivip::ios-detail', ['expires' => $info->expires]);
-        }
-    }
-    
-    public function buy()
-    {
-        $userId = Auth::user()->getAuthIdentifier();
-    }
-    
-    public function history()
-    {
-        
-    }
-    
-    public function renew()
-    {
-        
+        return view('hanoivip::admin.ios-finish-pendings');
     }
 }
