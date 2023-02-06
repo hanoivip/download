@@ -32,7 +32,9 @@ Route::middleware([
 Route::middleware([
     'web',
     'admin'
-])->namespace('\Hanoivip\Download\Controllers')->group(function () {
+])->namespace('\Hanoivip\Download\Controllers')
+    ->prefix('ecmin')
+    ->group(function () {
     Route::get('/ios', 'Admin@index')->name('ecmin.ios');
     // list all ready device?
     Route::get('/ios/pending', 'Admin@listPending');

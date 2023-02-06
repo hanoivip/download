@@ -19,6 +19,8 @@ class WaitDeviceRegistration implements ShouldQueue
     
     private $udid;
     
+    public $tries = 10;
+    
     public function __construct($userId, $udid)
     {
         $this->userId = $userId;
