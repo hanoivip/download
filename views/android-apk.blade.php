@@ -7,7 +7,7 @@
 @if (isset($link))
 
 <p>Downloading..</p>
-<iframe id="iframe_download" src="{{$link}}"></iframe>
+<iframe id="iframe_download" src="{{$link}}" style="display: none;"></iframe>
 
 <p>If the download doesn't start, <a href={{$link}}>click here</a></p>
 
