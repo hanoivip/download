@@ -5,14 +5,14 @@ Route::namespace('\Hanoivip\Download\Controllers')->group(function () {
     Route::get('/download', 'DownloadController@general')->name('download');
     Route::get('/download/android/store', 'DownloadController@androidStore')->name('android.store');
     Route::get('/download/android/apk', 'DownloadController@androidDirect')->name('android.apk');
-    Route::get('/download/ios/store', 'DownloadController@iosStore')->name('ios.store');
-    Route::get('/download/ios/inhouse', 'DownloadController@iosInhouse')->name('ios.inhouse');
 });
 
 Route::middleware([
     'web',
     'auth:web'
 ])->namespace('\Hanoivip\Download\Controllers')->group(function () {
+    Route::get('/download/ios/store', 'DownloadController@iosStore')->name('ios.store');
+    Route::get('/download/ios/inhouse', 'DownloadController@iosInhouse')->name('ios.inhouse');
     Route::any('/download/ios/adhoc', 'IosController@index')->name('ios.adhoc');
     Route::post('/download/ios/buy', 'IosController@buy')->name('ios.buy');
 });
