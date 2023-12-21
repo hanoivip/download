@@ -78,6 +78,10 @@ class DownloadController extends Controller
         $lang = "";
         if ($request->has('lang'))
             $lang = $request->input('lang');
+        if (Agent::is('iOS'))
+        {
+            return view('hanoivip::ios-inhouse', ['error_message' => 'You must open this page with Safari browser']);
+        }
         if (!empty($lang))
             $link = __('hanoivip::download.ios-in-house', [], $lang);
         else
